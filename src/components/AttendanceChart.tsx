@@ -16,6 +16,13 @@ const data = [
       name: 'Wed',
       present: 40,
       absent: 24,
+      
+    },
+  
+    {
+      name: 'Thur',
+      present: 40,
+      absent: 24,
     },
     {
       name: 'Fri',
@@ -29,26 +36,28 @@ const AttendanceChart = () => {
 
     return (
         <div className="bg-white rounded-lg h-full p-4">
-            <div className="">
-                <h1>Attendence</h1>
+            <div className="flex justify-between items-center">
+                <h1 className='text-lg font-semibold'>Attendence</h1>
                 <Image src='/moreDark.png' alt='' width={20} height={20} />
             </div>
+
             <ResponsiveContainer width="100%" height="90%">
-        <BarChart
-          width={500}
-          height={300}
-          data={data}
-          barSize={20}
-        >
-          <CartesianGrid strokeDasharray="3 3" />
-          <XAxis dataKey="name" />
-          <YAxis />
-          <Tooltip />
-          <Legend />
-          <Bar dataKey="pv" fill="#8884d8" activeBar={<Rectangle fill="pink" stroke="blue" />} />
-          <Bar dataKey="uv" fill="#82ca9d" activeBar={<Rectangle fill="gold" stroke="purple" />} />
-        </BarChart>
-      </ResponsiveContainer>
+            <BarChart
+              width={500}
+              height={300}
+              data={data}
+              barSize={20}
+            >
+              <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ddd" />
+              <XAxis dataKey="name" axisLine={false} tick={{fill:"#D1D5BD"}} tickLine={false} />
+              <YAxis />
+              <Tooltip contentStyle={{borderRadius:"10px", borderColor: "lightgray"}}/>
+              <Legend align='left' verticalAlign='top' 
+              wrapperStyle={{paddingTop:'20px', paddingBottom:'40px'}}/>
+              <Bar dataKey="absent" fill="#FAE27C"  legendType='circle' radius={[10,10,0,0]}/>
+              <Bar dataKey="present" fill="#C3EBFA" legendType='circle' radius={[10,10,0,0]}/>
+            </BarChart>
+          </ResponsiveContainer>
         </div>
     )
 }
