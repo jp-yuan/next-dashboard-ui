@@ -2,6 +2,60 @@
 
 export let role = "admin";
 
+export const SATQuestionsData = [
+  {
+    "passage": "In 1492, Christopher Columbus set sail from Spain in search of a westward route to Asia. Instead, he discovered the Americas, marking the beginning of European exploration and colonization in the New World.",
+    "question": "Who sailed from Spain in 1492 and discovered the Americas?",
+    "options": [
+      {answerText: "Ferdinand Magellan", isCorrect: false},
+      {answerText: "Marco Polo", isCorrect: false},
+      {answerText: "Christopher Columbus", isCorrect: true},
+      {answerText: "John Cabot", isCorrect: false}
+    ],
+  },
+  {
+    "passage": "The Pyramids of Giza are some of the most famous ancient structures in the world. They were built as tombs for the pharaohs and were originally covered in smooth white limestone, making them shine brightly in the sun.",
+    "question": "What was the original purpose of the Pyramids of Giza?",
+    "options": [
+      {answerText: "To serve as temples for the gods", isCorrect: false},
+      {answerText: "To act as royal residences", isCorrect: false},
+      {answerText: "To serve as tombs for pharaohs", isCorrect: true},
+      {answerText: "To store agricultural goods", isCorrect: false}
+    ],
+  },
+  {
+    "passage": "The human heart is a muscular organ that pumps blood throughout the body. It has four chambers: the left and right atria, and the left and right ventricles. The heart plays a critical role in maintaining circulation and delivering oxygen to tissues.",
+    "question": "How many chambers does the human heart have?",
+    "options": [
+      {answerText: "Two", isCorrect: false},
+      {answerText: "Four", isCorrect: true},
+      {answerText: "Five", isCorrect: false},
+      {answerText: "Six", isCorrect: false}
+    ],
+  },
+  {
+    "passage": "Albert Einstein is widely recognized for his development of the theory of relativity, which revolutionized our understanding of space, time, and gravity. His famous equation, E=mc², describes the relationship between energy and mass.",
+    "question": "What famous equation is attributed to Albert Einstein?",
+    "options": [
+      {answerText: "F=ma", isCorrect: false},
+      {answerText: "E=mc²", isCorrect: true},
+      {answerText: "V=IR", isCorrect: false},
+      {answerText: "a² + b² = c²", isCorrect: false}
+    ],
+  },
+  {
+    "passage": "The Great Wall of China is one of the most famous landmarks in the world. It was originally built to protect Chinese states and empires from invasions by nomadic tribes from the north. The wall stretches over 13,000 miles in length.",
+    "question": "What was the original purpose of the Great Wall of China?",
+    "options": [
+      {answerText: "To serve as a trade route", isCorrect: false},
+      {answerText: "To protect from invasions", isCorrect: true},
+      {answerText: "To serve as a road for the emperor", isCorrect: false},
+      {answerText: "To be a symbol of power", isCorrect: false}
+    ],
+  }
+];
+
+
 export const teachersData = [
   {
     id: 1,
