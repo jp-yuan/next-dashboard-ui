@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { SATQuestionsData } from '@/lib/data';
 
-function App() {
+function FreeSat() {
 
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answered, setAnswered] = useState(false);
@@ -113,4 +113,4 @@ function App() {
     );
 }
 
-export default App;
+export default FreeSat;

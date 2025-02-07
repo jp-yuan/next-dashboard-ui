@@ -1,161 +1,62 @@
 'use client'
+import { useForm } from "react-hook-form";
 
-import React, { useState } from 'react';
+export function Input({ register, name, type = "text", placeholder, required }) {
+  return (
+    <div>
+      <input
+        {...register(name, { required })}
+        type={type}
+        placeholder={placeholder}
+        className="w-full p-2 border rounded-lg"
+      />
+      {required && <p className="text-red-500 text-sm">This field is required</p>}
+    </div>
+  );
+}
 
-const StudentRegistrationForm = () => {
-  const [siblings, setSiblings] = useState([{ name: '', grade: '', school: '' }]);
-  const [hasSiblings, setHasSiblings] = useState(false);
-  const [schoolType, setSchoolType] = useState('Public');
-  const [parentInfo, setParentInfo] = useState({
-    guardian1: {
-      name: '',
-      relationship: '',
-      cell: '',
-      work: '',
-      email: '',
-      homeEmergency: '',
-      occupation: '',
-      homeAddress: ''
-    },
-    guardian2: {
-      name: '',
-      relationship: '',
-      cell: '',
-      work: '',
-      email: '',
-      homeEmergency: '',
-      occupation: '',
-      homeAddress: ''
-    }
-  });
+export function Button({ children, type = "button", className = "", ...props }) {
+  return (
+    <button
+      type={type}
+      className={`w-full p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 ${className}`}
+      {...props}
+    >
+      {children}
+    </button>
+  );
+}
 
-  const handleSiblingChange = (index, field, value) => {
-    const newSiblings = [...siblings];
-    newSiblings[index][field] = value;
-    setSiblings(newSiblings);
-  };
+export default function StudentParentForm() {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const handleAddSibling = () => {
-    setSiblings([...siblings, { name: '', grade: '', school: '' }]);
-  };
-
-  const handleRemoveSibling = (index) => {
-    const newSiblings = siblings.filter((_, i) => i !== index);
-    setSiblings(newSiblings);
-  };
-
-  const handleParentChange = (guardian, field, value) => {
-    setParentInfo((prevState) => ({
-      ...prevState,
-      [guardian]: {
-        ...prevState[guardian],
-        [field]: value
-      }
-    }));
+  const onSubmit = (data) => {
+    console.log(data);
   };
 
   return (
-    <form>
-      {/* Office Use Only */}
-      <fieldset>
-        <legend>For Office Use Only</legend>
-        <label>Student ID Number: <input type="text" /></label>
-        <label>Registration Date: <input type="date" /></label>
-      </fieldset>
+    <form onSubmit={handleSubmit(onSubmit)} className="max-w-lg mx-auto space-y-4 p-4 border rounded-lg shadow-md">
+      <h2 className="text-xl font-bold">Student Information</h2>
+      <Input register={register} name="studentName" placeholder="Student Name" required />
+      <Input register={register} name="studentPhone" type="tel" placeholder="Student Phone" required />
+      <Input register={register} name="studentEmail" type="email" placeholder="Student Email" required />
+      <Input register={register} name="grade" placeholder="Grade" required />
+      <Input register={register} name="school" placeholder="School" required />
+      <Input register={register} name="classOf" placeholder="Class Of" required />
 
-      {/* Student Information */}
-      <fieldset>
-        <legend>Student Information</legend>
-        <label>Full Legal Name</label>
-        <div>
-          <label>Last: <input type="text" /></label>
-          <label>First: <input type="text" /></label>
-          <label>Middle: <input type="text" /></label>
-        </div>
-        <label>Other Name: <input type="text" /></label>
-        <label>Home Address</label>
-        <div>
-          <label>Street: <input type="text" /></label>
-          <label>City: <input type="text" /></label>
-          <label>Zip Code: <input type="text" /></label>
-        </div>
-        <label>Birth date: <input type="date" /></label>
-        <label>Gender: <input type="text" /></label>
-        <label>Student Cell: <input type="tel" /></label>
-        <label>Home Phone: <input type="tel" /></label>
-        <label>Student Email: <input type="email" /></label>
+      <h2 className="text-xl font-bold mt-4">Parent Information</h2>
+      <Input register={register} name="parentName" placeholder="Parent Name" required />
+      <Input register={register} name="parentPhoneHome" type="tel" placeholder="Parent Phone (H)" required />
+      <Input register={register} name="parentPhoneFather" type="tel" placeholder="Parent Phone (C-Father)" required />
+      <Input register={register} name="parentPhoneMother" type="tel" placeholder="Parent Phone (C-Mother)" required />
+      <Input register={register} name="parentEmail1" type="email" placeholder="Parent Email 1" required />
+      <Input register={register} name="parentEmail2" type="email" placeholder="Parent Email 2 (Optional)" required={undefined} />
 
-        <div>
-          <label>Do you have any siblings?</label>
-          <select value={hasSiblings ? 'Yes' : 'No'} onChange={(e) => setHasSiblings(e.target.value === 'Yes')}>
-            <option value="No">No</option>
-            <option value="Yes">Yes</option>
-          </select>
-        </div>
-
-        {hasSiblings && (
-          <div>
-            <h4>Siblings</h4>
-            {siblings.map((sibling, index) => (
-              <div key={index}>
-                <label>Sibling Name: <input type="text" value={sibling.name} onChange={(e) => handleSiblingChange(index, 'name', e.target.value)} /></label>
-                <label>Grade: <input type="text" value={sibling.grade} onChange={(e) => handleSiblingChange(index, 'grade', e.target.value)} /></label>
-                <label>School: <input type="text" value={sibling.school} onChange={(e) => handleSiblingChange(index, 'school', e.target.value)} /></label>
-                <button type="button" onClick={() => handleRemoveSibling(index)}>Remove Sibling</button>
-              </div>
-            ))}
-            <button type="button" onClick={handleAddSibling}>Add Another Sibling</button>
-          </div>
-        )}
-      </fieldset>
-
-      {/* School Information */}
-      <fieldset>
-        <legend>School Information</legend>
-        <label>School Name: <input type="text" /></label>
-        <div>
-          <label>
-            <input type="radio" name="schoolType" value="Public" checked={schoolType === 'Public'} onChange={() => setSchoolType('Public')} /> Public
-          </label>
-          <label>
-            <input type="radio" name="schoolType" value="Private" checked={schoolType === 'Private'} onChange={() => setSchoolType('Private')} /> Private
-          </label>
-        </div>
-        <label>Grade Level: <input type="text" /></label>
-        <label>Graduation Year: <input type="text" /></label>
-      </fieldset>
-
-      {/* Parent / Guardian Information */}
-      <fieldset>
-        <legend>Parent / Guardian Information</legend>
-        <div>
-          <h4>Parent / Guardian #1</h4>
-          <label>Full Name: <input type="text" value={parentInfo.guardian1.name} onChange={(e) => handleParentChange('guardian1', 'name', e.target.value)} /></label>
-          <label>Relationship: <input type="text" value={parentInfo.guardian1.relationship} onChange={(e) => handleParentChange('guardian1', 'relationship', e.target.value)} /></label>
-          <label>Cellular Phone: <input type="tel" value={parentInfo.guardian1.cell} onChange={(e) => handleParentChange('guardian1', 'cell', e.target.value)} /></label>
-          <label>Work Phone: <input type="tel" value={parentInfo.guardian1.work} onChange={(e) => handleParentChange('guardian1', 'work', e.target.value)} /></label>
-          <label>E-mail Address: <input type="email" value={parentInfo.guardian1.email} onChange={(e) => handleParentChange('guardian1', 'email', e.target.value)} /></label>
-          <label>Home / Emergency Phone: <input type="tel" value={parentInfo.guardian1.homeEmergency} onChange={(e) => handleParentChange('guardian1', 'homeEmergency', e.target.value)} /></label>
-          <label>Occupation: <input type="text" value={parentInfo.guardian1.occupation} onChange={(e) => handleParentChange('guardian1', 'occupation', e.target.value)} /></label>
-          <label>Home Address (if different): <input type="text" value={parentInfo.guardian1.homeAddress} onChange={(e) => handleParentChange('guardian1', 'homeAddress', e.target.value)} /></label>
-        </div>
-
-        <div>
-          <h4>Parent / Guardian #2</h4>
-          <label>Full Name: <input type="text" value={parentInfo.guardian2.name} onChange={(e) => handleParentChange('guardian2', 'name', e.target.value)} /></label>
-          <label>Relationship: <input type="text" value={parentInfo.guardian2.relationship} onChange={(e) => handleParentChange('guardian2', 'relationship', e.target.value)} /></label>
-          <label>Cellular Phone: <input type="tel" value={parentInfo.guardian2.cell} onChange={(e) => handleParentChange('guardian2', 'cell', e.target.value)} /></label>
-          <label>Work Phone: <input type="tel" value={parentInfo.guardian2.work} onChange={(e) => handleParentChange('guardian2', 'work', e.target.value)} /></label>
-          <label>E-mail Address: <input type="email" value={parentInfo.guardian2.email} onChange={(e) => handleParentChange('guardian2', 'email', e.target.value)} /></label>
-          <label>Home / Emergency Phone: <input type="tel" value={parentInfo.guardian2.homeEmergency} onChange={(e) => handleParentChange('guardian2', 'homeEmergency', e.target.value)} /></label>
-          <label>Occupation: <input type="text" value={parentInfo.guardian2.occupation} onChange={(e) => handleParentChange('guardian2', 'occupation', e.target.value)} /></label>
-          <label>Home Address (if different): <input type="text" value={parentInfo.guardian2.homeAddress} onChange={(e) => handleParentChange('guardian2', 'homeAddress', e.target.value)} /></label>
-        </div>
-      </fieldset>
-
-      <button type="submit">Submit</button>
+      <Button type="submit" className="mt-4">Submit</Button>
     </form>
   );
-};
-
-export default StudentRegistrationForm;
+}

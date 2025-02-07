@@ -1,6 +1,7 @@
 import Announcements from "@/components/Announcements";
 import BigCalendar from "@/components/BigCalendar";
 import EventCalendar from "@/components/EventCalendar";
+import FreeSat from "../../../components/FreeSat";
 
 const studentPage = () => {
     return (
@@ -16,6 +17,7 @@ const studentPage = () => {
             <div className="w-full xl:w-1/3 flex-col gap-8">
                 <Announcements/>
                 <EventCalendar/>
+                <FreeSat/>
             </div>
         </div>
     )
