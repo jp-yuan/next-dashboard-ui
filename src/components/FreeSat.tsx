@@ -1,15 +1,22 @@
 'use client'
 
 import React, { useState } from 'react';
+
+interface FreeSatProps {
+    onFinish: () => void;
+}
 import { SATQuestionsData } from '@/lib/data';
 
-function FreeSat() {
-
+const FreeSat: React.FC<FreeSatProps> = ({ onFinish }) => {
     const [currentQuestion, setCurrentQuestion] = useState(0);
     const [answered, setAnswered] = useState(false);
     const [selectedAnswers, setSelectedAnswers] = useState(Array(SATQuestionsData.length).fill(null)); // Store selected answers for each question
     const [score, setScore] = useState(0);
     const [showScore, setShowScore] = useState(false);
+
+    const handleFinish = () => {
+        onFinish(); // Trigger onFinish callback
+    };
 
     // Function to move to the next question
     const nextQuestion = () => {
@@ -21,6 +28,9 @@ function FreeSat() {
             const totalScore = selectedAnswers.filter((answer, index) => SATQuestionsData[index].options[answer]?.isCorrect).length;
             setScore(totalScore);
             setShowScore(true); // Show final score
+
+            // Call the onFinish callback after the last question is answered
+            handleFinish();
         }
     };
 
@@ -46,6 +56,9 @@ function FreeSat() {
         const totalScore = selectedAnswers.filter((answer, index) => SATQuestionsData[index].options[answer]?.isCorrect).length;
         setScore(totalScore);
         setShowScore(true); // Show final score
+
+        // Call the onFinish callback when submitting
+        handleFinish();
     };
 
     return (

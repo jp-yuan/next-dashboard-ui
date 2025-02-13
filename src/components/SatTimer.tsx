@@ -1,25 +1,63 @@
-'use client';
+import React, { useState, useEffect } from 'react';
 
-import { useState, useEffect } from "react";
 
-export default function CountdownTimer() {
-  const [timeLeft, setTimeLeft] = useState(60); // Countdown from 60 seconds
 
-  useEffect(() => {
-    if (timeLeft <= 0) return;
-    const timer = setInterval(() => {
-      setTimeLeft((prev) => prev - 1);
-    }, 1000);
+interface CountdownTimerProps {
 
-    return () => clearInterval(timer);
-  }, [timeLeft]);
+    onFinish: () => void;
 
-  return (
-    <div className="flex flex-col items-center justify-center h-screen">
-      <h1 className="text-4xl font-bold mb-4">Countdown Timer</h1>
-      <div className="text-6xl font-mono bg-gray-200 p-4 rounded-xl shadow-lg">
-        {timeLeft}s
-      </div>
-    </div>
-  );
 }
+
+
+
+const CountdownTimer: React.FC<CountdownTimerProps> = ({ onFinish }) => {
+
+    const [timeLeft, setTimeLeft] = useState(30); // 1 hour in seconds
+
+
+
+    useEffect(() => {
+
+        const timer = setInterval(() => {
+
+            setTimeLeft((prevTime) => {
+
+                if (prevTime <= 1) {
+
+                    clearInterval(timer);
+
+                    onFinish();
+
+                    return 0;
+
+                }
+
+                return prevTime - 1;
+
+            });
+
+        }, 1000);
+
+
+
+        return () => clearInterval(timer);
+
+    }, [onFinish]);
+
+
+
+    return (
+
+        <div>
+
+            <h1>Time Left: {timeLeft} seconds</h1>
+
+        </div>
+
+    );
+
+};
+
+
+
+export default CountdownTimer;
